@@ -2,81 +2,51 @@
  * This file provides css styles.
  */
 
-body,html {
-	background-color: #3b4b54; width : 100%;
-	height: 100%;
-	margin: 0 auto;
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-	color: #ffffff;
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-size: 16px;
+    margin: 10px;
+    line-height: 1.2em;
+    color: #555;
 }
 
-a {
-	text-decoration: none;
-	color: #00aed1;
+.orangeHeader {
+    background-image: linear-gradient(-180deg, #CC9933 0%, #CC6600 100%);
+    color:white;
+    height:80px;
+    border: 1px solid #CC6600;
+    align: center;
 }
 
-a:hover {
-	text-decoration: underline;
+.boxform {
+    border: 3px solid #CC6600;
 }
 
-.newappIcon {
-	padding-top: 10%;
-	display: block;
-	margin: 0 auto;
-	padding-bottom: 2em;
-	max-width:200px;
+.viewFormTable {
+    border: 0px;
+    width: auto;
+    font-size: 80%;
+    align: center;
 }
 
-h1 {
-	font-weight: bold;
-	font-size: 2em;
+.formButton {
+  display: inline-block;
+  padding: 5px 5px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #CC6600;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 5px #999;
 }
 
-.leftHalf {
-	float: left;
-	background-color: #26343f;
-	width: 45%;
-	height: 100%;
+input[type=text] {
+    padding: 5px 5px;
+    margin: 4px 0;
+    display: inline-block;
+    border: 1px solid #CC6600;
+    box-sizing: border-box;
 }
-
-.rightHalf {
-	float: right;
-	width: 55%;
-	background-color: #313f4a;
-	height: 100%;
-	overflow:auto;
-}
-
-.blue {
-	color: #00aed1;
-}
-
-
-table {
-	table-layout: fixed;
-	width: 800px;
-	margin: 0 auto;
-	word-wrap: break-word;
-	padding-top:10%;
-}
-
-th {
-	border-bottom: 1px solid #000;
-}
-
-th, td {
-	text-align: left;
-	padding: 2px 20px;
-}
-
-.env-var {
-	text-align: right;
-	border-right: 1px solid #000;
-	width: 30%;
-}
-
-pre {
-	padding: 0;
-	margin: 0;
-}
-
