@@ -83,6 +83,13 @@ func (t *AssetChaincode) write(stub shim.ChaincodeStubInterface, args []string) 
 		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
 	}
 
+	var asset Asset;
+	err = json.Unmarshal([]byte(args[1]), &asset)
+	if err != nil {
+		fmt.Printf("Error writing to assets : %v\n", err)
+	}
+	fmt.Printf("Asset list after unmarshalling : %v\n", asset)
+
 	key = args[0] //rename for funsies
 	value = args[1]
 	err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
