@@ -77,6 +77,7 @@ func (t *AssetChaincode) Query(stub shim.ChaincodeStubInterface, function string
 func (t *AssetChaincode) write(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var key, value string
 	var err error
+	fmt.Printf("running write()")
 	fmt.Println("running write()")
 
 	if len(args) != 2 {
