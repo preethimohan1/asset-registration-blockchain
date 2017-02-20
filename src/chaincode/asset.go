@@ -84,7 +84,7 @@ func (t *AssetChaincode) write(stub shim.ChaincodeStubInterface, args []string) 
 	}
 
 	key = "assets" 
-	value = `{ "assetID": "123456", "assetName": "Asset1", "assetManufacturer": "Company1" }`
+	value = args[0]
 	err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
 	if err != nil {
 		return nil, err
