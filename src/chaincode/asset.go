@@ -38,26 +38,6 @@ func main() {
 	if err != nil {
 		fmt.Printf("Error starting Simple chaincode: %s", err)
 	}
-	
-	var stub = shim.NewMockStub("mock", new(AssetChaincode)) 
-	var jsonBlob = `{ "assetID": "123456", "assetName": "Asset1", "assetManufacturer": "Company1" }`
-	
-	err = stub.PutState("assets", []byte(jsonBlob))
-	if err != nil {
-		fmt.Printf("Error writing to assets : %v\n", err)
-	}
-	
-	
-	var valAsbytes, err1 = stub.GetState("assets")
-	if err1 != nil {
-		fmt.Printf("Error getting assets : %v\n", err1)
-	}
-	
-	var asset Asset;
-	err = json.Unmarshal([]byte(valAsbytes), &asset)
-	fmt.Printf("Asset list after unmarshal: %v\n", asset)
-	
-	
 }
 
 // Init resets all the things
@@ -105,7 +85,7 @@ func (t *AssetChaincode) write(stub shim.ChaincodeStubInterface, args []string) 
 	}
 
 	key = "assets" 
-	value = args[0]
+	value = `{ "assetID": "123456", "assetName": "Asset1", "assetManufacturer": "Company1" }`
 	err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
 	if err != nil {
 		return nil, err
