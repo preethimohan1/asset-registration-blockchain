@@ -79,12 +79,12 @@ func (t *AssetChaincode) write(stub shim.ChaincodeStubInterface, args []string) 
 	var err error
 	fmt.Println("running write()")
 
-	if len(args) != 1 {
+	if len(args) != 2 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 1 json element.")
 	}
 
-	key = "assets" 
-	value = args[0]
+	key = args[0] 
+	value = args[1]
 	err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
 	if err != nil {
 		return nil, err
