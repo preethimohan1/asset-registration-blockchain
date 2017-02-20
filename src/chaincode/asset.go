@@ -14,39 +14,60 @@ limitations under the License.
 package main
 
 import (
+    "encoding/json"
 	"errors"
 	"fmt"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
-// SimpleChaincode example simple Chaincode implementation
-type SimpleChaincode struct {
+// Asset example simple Chaincode implementation
+type Asset struct {
+	assetID            string             `json:"assetID"`
+	assetName          string             `json:"assetName"`
+	assetManufacturer  string             `json:"assetManufacturer"`
+}
+
+type AssetList []Asset
+
+type AssetChaincode struct {
 }
 
 func main() {
-	err := shim.Start(new(SimpleChaincode))
+	var err = shim.Start(new(AssetChaincode))
 	if err != nil {
 		fmt.Printf("Error starting Simple chaincode: %s", err)
 	}
+	
+	var stub = shim.NewMockStub("mock", new(AssetChaincode)) 
+	var jsonBlob = `{ "assetID": "123456", "assetName": "Asset1", "assetManufacturer": "Company1" }`
+	
+	err = stub.PutState("assets", []byte(jsonBlob))
+	if err != nil {
+		fmt.Printf("Error writing to assets : %v\n", err)
+	}
+	
+	
+	var valAsbytes, err1 = stub.GetState("assets")
+	if err1 != nil {
+		fmt.Printf("Error getting assets : %v\n", err1)
+	}
+	
+	var asset Asset;
+	err = json.Unmarshal([]byte(valAsbytes), &asset)
+	fmt.Printf("Asset list after unmarshal: %v\n", asset)
+	
+	
 }
 
 // Init resets all the things
-func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
-	if len(args) != 1 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 1")
-	}
-
-	err := stub.PutState("hello_world", []byte(args[0]))
-	if err != nil {
-		return nil, err
-	}
+func (t *AssetChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 
 	return nil, nil
 }
 
 // Invoke isur entry point to invoke a chaincode function
-func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (t *AssetChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("invoke is running " + function)
 
 	// Handle different functions
@@ -61,7 +82,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 }
 
 // Query is our entry point for queries
-func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (t *AssetChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("query is running " + function)
 
 	// Handle different functions
@@ -74,17 +95,17 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 }
 
 // write - invoke function to write key/value pair
-func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+func (t *AssetChaincode) write(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var key, value string
 	var err error
 	fmt.Println("running write()")
 
-	if len(args) != 2 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
+	if len(args) != 1 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 1 json element.")
 	}
 
-	key = args[0] //rename for funsies
-	value = args[1]
+	key = "assets" 
+	value = args[0]
 	err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
 	if err != nil {
 		return nil, err
@@ -93,7 +114,7 @@ func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string)
 }
 
 // read - query function to read key/value pair
-func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+func (t *AssetChaincode) read(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var key, jsonResp string
 	var err error
 

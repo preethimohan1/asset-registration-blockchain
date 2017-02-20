@@ -1,3 +1,7 @@
 launchConfigurations/
 node_modules/
 .DS_Store
+pkg/
+bin/
+chaincode
+src/github.com/
